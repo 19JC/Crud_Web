@@ -1,0 +1,48 @@
+﻿@model Crud.Models.Usuario
+
+@{
+    ViewBag.Title = "Eliminar Registro";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h3>Estas Seguro Que desear eliminar este registro?</h3>
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre_Usuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre_Usuario)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_Nacimiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_Nacimiento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sexualidad.Tipo_Sexualidad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sexualidad.Tipo_Sexualidad)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            <button style="background-color: white; color: black; Border: 2px solid red; border-radius: 8px;">@Html.ActionLink("Cancelar", "Index")</button>
+</div>
+    }
+</div>
