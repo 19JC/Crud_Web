@@ -1,0 +1,62 @@
+Create database PruebaDesarrollador
+
+CREATE TABLE dbo.Usuarios
+    (Id_Usuario int PRIMARY KEY NOT NULL,
+    Nombre_Usuario varchar(25) NOT NULL,
+	Fecha_Nacimiento DATE NOT NULL,
+    Id_Sexualidad INT NOT NULL
+	)
+
+CREATE TABLE dbo.Sexualidad
+    (Id_Sexualidad int PRIMARY KEY NOT NULL,
+    Tipo_Sexualidad varchar(25) NOT NULL
+	)
+
+ALTER TABLE dbo.Usuarios
+ADD FOREIGN KEY (Id_Sexualidad) REFERENCES dbo.Sexualidad(Id_Sexualidad);
+
+
+--drop table dbo.Usuarios
+
+CREATE PROCEDURE UsuarioCRUD
+    @Id_Usuario INT = NULL,
+    @Nombre_Usuario VARCHAR(100) = NULL,
+    @Fecha_Nacimiento DATE = NULL,
+    @Id_Sexualidad VARCHAR(1) = NULL,
+    @Action VARCHAR(10)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF (@Action = 'Agregar')
+    BEGIN
+        INSERT INTO dbo.Usuarios (Nombre_Usuario, Fecha_Nacimiento, Id_Sexualidad)
+        VALUES (@Nombre_Usuario, @Fecha_Nacimiento, @Id_Sexualidad)
+    END
+    ELSE IF (@Action = 'Modificar')
+    BEGIN
+        UPDATE dbo.Usuarios
+        SET Nombre_Usuario = @Nombre_Usuario,
+            Fecha_Nacimiento = @Fecha_Nacimiento,
+            Id_Sexualidad = @Id_Sexualidad
+        WHERE Id_Usuario = @Id_Usuario
+    END
+    ELSE IF (@Action = 'Consultar')
+    BEGIN
+        SELECT * FROM dbo.Usuarios
+    END
+    ELSE IF (@Action = 'Eliminar')
+    BEGIN
+        DELETE FROM dbo.Usuarios WHERE Id_Usuario = @Id_Usuario
+    END
+END
+
+INSERT INTO dbo.Sexualidad (Id_Sexualidad,Tipo_Sexualidad) VALUES (1,'Femenino')
+INSERT INTO dbo.Sexualidad (Id_Sexualidad,Tipo_Sexualidad) VALUES (2,'Maculino')
+INSERT INTO dbo.Sexualidad (Id_Sexualidad,Tipo_Sexualidad) VALUES (3,'No Identificado')
+insert into dbo.Usuarios (Id_Usuario,Nombre_Usuario,Fecha_Nacimiento,Id_Sexualidad) values (1,'Julio','1995/03/19',1)
+
+select
+tipo_sexualidad from dbo.Usuarios
+inner join dbo.Sexualidad
+on dbo.Usuarios.Id_Sexualidad = dbo.Sexualidad.Id_Sexualidad
